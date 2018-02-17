@@ -9,11 +9,11 @@ contract MintableRegistry is BaseRegistry {
   public function MintableRegistry() {
     creator = msg.sender;
 
-    name = "{_NAME_}";
-    symbol = "{_SYMBOL_}";
-    description = "{_DESC_}";
+    name = "{{ NAME }}";
+    symbol = "{{ SYMBOL }}";
+    description = "{{ DESC }}";
 
-    for (uint256 t=0; t<"_NUM_TOKENS_"; t++) {
+    for (uint256 t=0; t<"{{ NUM_TOKENS }}"; t++) {
       _mint(msg.sender, t);
     }
   }
