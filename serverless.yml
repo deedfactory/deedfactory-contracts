@@ -22,3 +22,7 @@ functions:
     handler: wsgi.handler
     events:
       - http: POST /
+
+# package:
+#   include:
+#     - templates/**
