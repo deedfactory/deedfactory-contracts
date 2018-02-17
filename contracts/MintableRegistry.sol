@@ -3,6 +3,9 @@ pragma solidity ^0.4.18;
 import './BaseRegistry.sol';
 
 contract MintableRegistry is BaseRegistry {
+  /* Contract template for a set of NFTs where the creator of the contract can
+     mint additional tokens once the first set have been creater at the time of
+     contract creation. */
 
   address creator;
 
