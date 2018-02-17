@@ -4,14 +4,14 @@ import './BaseRegistry.sol';
 
 contract NonMintableRegistry is BaseRegistry {
   /* Contract template for a set of NFTs that are created at the time of the
-     call, and no additional tokens can be minted. */ 
+     call, and no additional tokens can be minted. */
 
-  public function NonMintableRegistry() {
-    name = "{_NAME_}";
-    symbol = "{_SYMBOL_}";
-    description = "{_DESC_}";
+  function NonMintableRegistry() public {
+    _name = "NonMintable Test Token";
+    _symbol = "NMTT";
+    _description = "A nonmintable test token.";
 
-    for (uint256 t=0; t<"_NUM_TOKENS_"; t++) {
+    for (uint256 t=0; t<10; t++) {
       _mint(msg.sender, t);
     }
   }

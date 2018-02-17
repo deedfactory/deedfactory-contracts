@@ -1,5 +1,5 @@
-var NonMintableRegistry = artifacts.require("./NonMintableRegistry.sol");
+var MintableRegistry = artifacts.require("./MintableRegistry.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(NonMintableRegistry);
+  deployer.deploy(MintableRegistry);
 };

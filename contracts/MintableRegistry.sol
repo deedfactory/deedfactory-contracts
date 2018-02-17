@@ -9,19 +9,19 @@ contract MintableRegistry is BaseRegistry {
 
   address creator;
 
-  public function MintableRegistry() {
+  function MintableRegistry() public {
     creator = msg.sender;
 
-    name = "{_NAME_}";
-    symbol = "{_SYMBOL_}";
-    description = "{_DESC_}";
+    _name = "Mintable Test Token";
+    _symbol = "MTT";
+    _description = "A mintable test token.";
 
-    for (uint256 t=0; t<"_NUM_TOKENS_"; t++) {
+    for (uint256 t=0; t<10; t++) {
       _mint(msg.sender, t);
     }
   }
 
-  public function Mint(string url) {
+  function Mint(string url) public {
     require(msg.sender == creator);
     uint256 currentTokenCount = totalTokens;
     // The index of the newest token is at the # totalTokens.
