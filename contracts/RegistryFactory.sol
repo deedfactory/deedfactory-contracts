@@ -9,12 +9,17 @@ contract RegistryFactory {
     string _name,
     string _symbol,
     string _description,
-    uint256 _maxSupply) public returns (address) {
+    uint256 _initialSupply) public returns (address) {
 
       address registry = new Registry(
-          _name, _symbol, _description, _maxSupply, msg.sender);
+          _name, _symbol, _description, _initialSupply, msg.sender);
       created.push(registry);
-      return registry;
+      return address(registry);
     }
+
+  function getLastCreated() public view returns (address) {
+      require(created.length > 0);
+      return created[created.length - 1];
+  }
 
 }
