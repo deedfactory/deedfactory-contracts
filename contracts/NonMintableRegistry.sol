@@ -7,9 +7,10 @@ contract NonMintableRegistry is BaseRegistry {
      call, and no additional tokens can be minted. */
 
   function NonMintableRegistry() public {
-    _name = "NonMintable Test Token";
-    _symbol = "NMTT";
-    _description = "A nonmintable test token.";
+    name = "NonMintable Test Token";
+    symbol = "NMTT";
+    description = "A nonmintable test token.";
+    creator = msg.sender;
 
     for (uint256 t=0; t<10; t++) {
       _mint(msg.sender, t);

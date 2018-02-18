@@ -7,14 +7,13 @@ contract MintableRegistry is BaseRegistry {
      mint additional tokens once the first set have been creater at the time of
      contract creation. */
 
-  address creator;
-
   function MintableRegistry() public {
     creator = msg.sender;
 
-    _name = "Mintable Test Token";
-    _symbol = "MTT";
-    _description = "A mintable test token.";
+    name = "Mintable Test Token";
+    symbol = "MTT";
+    description = "A mintable test token.";
+    creator = msg.sender;
 
     for (uint256 t=0; t<10; t++) {
       _mint(msg.sender, t);
@@ -23,7 +22,7 @@ contract MintableRegistry is BaseRegistry {
 
   function Mint(string url) public {
     require(msg.sender == creator);
-    uint256 currentTokenCount = totalTokens;
+    uint256 currentTokenCount = totalSupply();
     // The index of the newest token is at the # totalTokens.
     _mint(msg.sender, currentTokenCount);
     // _mint() call adds 1 to total tokens, but we want the token at index - 1

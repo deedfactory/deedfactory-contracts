@@ -9,9 +9,10 @@ contract ClonedMetaDataRegistry is BaseRegistry {
      to set the meta*/
 
   function ClonedMetaData() public {
-    _name = "Clone test token";
-    _symbol = "CTT";
-    _description = "A test token where each token has the same metadata.";
+    name = "Clone test token";
+    symbol = "CTT";
+    description = "A test token where each token has the same metadata.";
+    creator = msg.sender;
 
     for (uint256 t=0; t<10; t++) {
       _mint(msg.sender, t);
