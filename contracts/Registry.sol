@@ -7,13 +7,38 @@ contract Registry is ERC721Token {
   string public name;
   string public symbol;
   string public description;
-  // Can the creator of the contract mint new tokens to the contract
-  bool public mintable;
-  // Total tokens starts at 0 because each new token must be minted and the
-  // _mint() call adds 1 to totalTokens
+  uint256 maxTokens;
+  uint256 currentSupply;
+  address public creator;
+
   uint256 totalTokens = 0;
 
-  address public creator;
+  // Mapping from token ID to owner
+  mapping (uint256 => address) private tokenOwner;
+
+  // Mapping from token ID to approved address
+  mapping (uint256 => address) private tokenApprovals;
+
+  // Mapping from owner to list of owned token IDs
+  mapping (address => uint256[]) private ownedTokens;
+
+  // Mapping from token ID to index of the owner tokens list
+  mapping(uint256 => uint256) private ownedTokensIndex;
+
+  function Registry(
+    string _name,
+    string _symbol,
+    string _description,
+    uint256 _maxTokens,
+    address _caller) public {
+
+      name = _name;
+      symbol = _symbol;
+      description = _description;
+      maxTokens = _maxTokens;
+      creator = _caller;
+
+    }
 
   event MetadataAssigned(address indexed _owner, uint256 _tokenId, string _url);
 
@@ -37,6 +62,10 @@ contract Registry is ERC721Token {
 
   function getMetadataAtID(uint256 _tokenId) public view returns (string) {
     return tokenIdToMetadata[_tokenId];
+  }
+
+  function getCurrentSupply() public view returns (uint256) {
+    return currentSupply;
   }
 
   function approveMany(address _to, uint256[] _tokenIds) public {
@@ -76,9 +105,10 @@ contract Registry is ERC721Token {
   }
 
   function Mint(string url) public {
-    require(mintable);
-    require(msg.sender == creator);
     uint256 currentTokenCount = totalSupply();
+    require(currentTokenCount.add(1) <= maxTokens);
+    require(msg.sender == creator);
+
     // The index of the newest token is at the # totalTokens.
     _mint(msg.sender, currentTokenCount);
     // _mint() call adds 1 to total tokens, but we want the token at index - 1

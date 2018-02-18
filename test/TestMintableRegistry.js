@@ -1,33 +1,36 @@
 var RegistryFactory = artifacts.require('RegistryFactory');
-var MintableRegistry = artifacts.require('MintableRegistry');
+var Registry = artifacts.require('Registry');
 
 contract('RegistryFactory', function(accounts) {
+
+  var registry;
+
+  before(function (done) {
+    const factory = await RegistryFactory.new();
+
+  });
 
   it("should exist and can create a registry", function(done) {
     RegistryFactory.deployed().then(async function(instance) {
       assert(instance.address != "0x0");
-      await instance.createRegistry(
-        "Mintable Test Token", "MTT", "A mintable test token.", 10, true);
-      MintableRegistry.deployed().then(async function(instance) {
-        assert(instance.address != "0x0");
-        done();
-      })
+      // registry = await instance.createRegistry(
+      //   "Mintable Test Token", "MTT", "A mintable test token.", 10, true);
+      // assert(registry.address != "0x0");
+      done();
     })
   });
 
-  it("should start with default initial values", function(done) {
-    MintableRegistry.deployed().then(async function(instance) {
-      let _name = await instance.name();
-      let _symbol = await instance.symbol();
-      let _desc = await instance.description();
-      let _ts = await instance.totalSupply();
+  it("should start with default initial values", async function(done) {
+      let _name = registry.name();
+      let _symbol = registry.symbol();
+      let _desc = registry.description();
+      let _ts = registry.totalSupply();
 
       assert.equal(_name, "Mintable Test Token");
       assert.equal(_symbol, "MTT");
       assert.equal(_desc, "A mintable test token.");
       assert.equal(_ts, 10);
       done();
-    })
   });
 
   it("should allow a token to be transfer after being allowed", function(done) {

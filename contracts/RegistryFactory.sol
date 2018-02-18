@@ -1,19 +1,20 @@
 pragma solidity ^0.4.18;
 
-import './MintableRegistry.sol';
+import './Registry.sol';
 
 contract RegistryFactory {
+  address[] public created;
 
   function createRegistry(
     string _name,
     string _symbol,
     string _description,
-    uint256 _initialSupply,
-    bool _mintable) public returns (address) {
+    uint256 _maxSupply) public returns (address) {
 
-      MintableRegistry registry = new MintableRegistry(
-          _name, _symbol, _description, _initialSupply, _mintable, msg.sender);
-      return address(registry);
+      address registry = new Registry(
+          _name, _symbol, _description, _maxSupply, msg.sender);
+      created.push(registry);
+      return registry;
     }
 
 }
