@@ -2,11 +2,13 @@ pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
 
-contract BaseRegistry is ERC721Token {
+contract Registry is ERC721Token {
 
   string public name;
   string public symbol;
   string public description;
+  // Can the creator of the contract mint new tokens to the contract
+  bool public mintable;
   // Total tokens starts at 0 because each new token must be minted and the
   // _mint() call adds 1 to totalTokens
   uint256 totalTokens = 0;
@@ -71,6 +73,16 @@ contract BaseRegistry is ERC721Token {
 
       Approval(_from, 0, _tokenId);
       Transfer(_from, _to, _tokenId);
+  }
+
+  function Mint(string url) public {
+    require(mintable);
+    require(msg.sender == creator);
+    uint256 currentTokenCount = totalSupply();
+    // The index of the newest token is at the # totalTokens.
+    _mint(msg.sender, currentTokenCount);
+    // _mint() call adds 1 to total tokens, but we want the token at index - 1
+    tokenIdToMetadata[currentTokenCount] = url;
   }
 
 }

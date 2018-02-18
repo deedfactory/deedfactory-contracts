@@ -1,32 +1,27 @@
 pragma solidity ^0.4.18;
 
-import './BaseRegistry.sol';
+import './Registry.sol';
 
-contract MintableRegistry is BaseRegistry {
-  /* Contract template for a set of NFTs where the creator of the contract can
-     mint additional tokens once the first set have been creater at the time of
-     contract creation. */
+contract MintableRegistry is Registry {
 
-  function MintableRegistry() public {
-    creator = msg.sender;
+  function MintableRegistry(
+    string _name,
+    string _symbol,
+    string _description,
+    uint256 _initialSupply,
+    bool _mintable,
+    address _caller) public {
 
-    name = "Mintable Test Token";
-    symbol = "MTT";
-    description = "A mintable test token.";
-    creator = msg.sender;
+      name = _name;
+      symbol = _symbol;
+      description = _description;
+      mintable = _mintable;
+      creator = _caller;
+      totalTokens = 0;
 
-    for (uint256 t=0; t<10; t++) {
-      _mint(msg.sender, t);
+      for (uint256 t=0; t<_initialSupply; t++) {
+        _mint(creator, t);
+      }
     }
-  }
-
-  function Mint(string url) public {
-    require(msg.sender == creator);
-    uint256 currentTokenCount = totalSupply();
-    // The index of the newest token is at the # totalTokens.
-    _mint(msg.sender, currentTokenCount);
-    // _mint() call adds 1 to total tokens, but we want the token at index - 1
-    tokenIdToMetadata[currentTokenCount] = url;
-  }
 
 }

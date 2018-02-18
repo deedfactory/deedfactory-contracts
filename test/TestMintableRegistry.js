@@ -1,10 +1,17 @@
+var RegistryFactory = artifacts.require('RegistryFactory');
 var MintableRegistry = artifacts.require('MintableRegistry');
 
-contract('MintableRegistry', function(accounts) {
+contract('RegistryFactory', function(accounts) {
 
-  it("should exist", function () {
-    MintableRegistry.deployed().then(function(instance) {
+  it("should exist and can create a registry", function(done) {
+    RegistryFactory.deployed().then(async function(instance) {
       assert(instance.address != "0x0");
+      await instance.createRegistry(
+        "Mintable Test Token", "MTT", "A mintable test token.", 10, true);
+      MintableRegistry.deployed().then(async function(instance) {
+        assert(instance.address != "0x0");
+        done();
+      })
     })
   });
 
