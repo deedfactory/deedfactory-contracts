@@ -107,7 +107,14 @@ contract Registry is ERC721Token {
     uint256 currentTokenCount = totalSupply();
     // The index of the newest token is at the # totalTokens.
     _mint(msg.sender, currentTokenCount);
-    // _mint() call adds 1 to total tokens, but we want the token at index - 1
+    tokenIdToMetadata[currentTokenCount] = url;
+  }
+
+  function MintToAddress(string url, address _to) public {
+    require(msg.sender == creator);
+    uint256 currentTokenCount = totalSupply();
+    // The index of the newest token is at the # totalTokens.
+    _mint(_to, currentTokenCount);
     tokenIdToMetadata[currentTokenCount] = url;
   }
 
