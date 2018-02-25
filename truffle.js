@@ -15,14 +15,14 @@ module.exports = {
     },
    ropsten:  {
      provider: function() {
-        return new HDWalletProvider("", "https://rinkeby.infura.io/6905tOWMuCMdmy4sRq5k", 0)
+        return new HDWalletProvider("Mnemonic here", "Ropsten infura api key here")
       },
       network_id: 3,
       gas: 20000000
     },
     rinkeby: {
       provider: function() {
-         return new HDWalletProvider("MNEMONIC HERE", "https://rinkeby.infura.io/6905tOWMuCMdmy4sRq5k")
+         return new HDWalletProvider("Mnemonic here", "Rinkeby infura api key here")
        },
       host: "localhost", // Connect to geth on the specified
       network_id: 4,
