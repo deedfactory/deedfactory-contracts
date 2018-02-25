@@ -2,16 +2,45 @@ pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
 
-contract BaseRegistry is ERC721Token {
+contract Registry is ERC721Token {
 
   string public name;
   string public symbol;
   string public description;
+  uint256 public maxSupply;
   // Total tokens starts at 0 because each new token must be minted and the
   // _mint() call adds 1 to totalTokens
   uint256 totalTokens = 0;
 
   address public creator;
+
+  // Mapping from token ID to owner
+  mapping (uint256 => address) tokenOwner;
+
+  // Mapping from token ID to approved address
+  mapping (uint256 => address) tokenApprovals;
+
+  // Mapping from owner to list of owned token IDs
+  mapping (address => uint256[]) ownedTokens;
+
+  // Mapping from token ID to index of the owner tokens list
+  mapping(uint256 => uint256) ownedTokensIndex;
+
+  function Registry(
+    string _name,
+    string _symbol,
+    string _description,
+    uint256 _maxSupply,
+    address _caller) public {
+
+      name = _name;
+      symbol = _symbol;
+      description = _description;
+      creator = _caller;
+      totalTokens = 0;
+      maxSupply = _maxSupply;
+
+    }
 
   event MetadataAssigned(address indexed _owner, uint256 _tokenId, string _url);
 
@@ -71,6 +100,15 @@ contract BaseRegistry is ERC721Token {
 
       Approval(_from, 0, _tokenId);
       Transfer(_from, _to, _tokenId);
+  }
+
+  function Mint(string url) public {
+    require(msg.sender == creator);
+    uint256 currentTokenCount = totalSupply();
+    // The index of the newest token is at the # totalTokens.
+    _mint(msg.sender, currentTokenCount);
+    // _mint() call adds 1 to total tokens, but we want the token at index - 1
+    tokenIdToMetadata[currentTokenCount] = url;
   }
 
 }
