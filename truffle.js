@@ -22,7 +22,7 @@ module.exports = {
     },
     rinkeby: {
       provider: function() {
-         return new HDWalletProvider("stairs room pattern flock brown apple lock key always post top abstract", "https://rinkeby.infura.io/6905tOWMuCMdmy4sRq5k")
+         return new HDWalletProvider("MNEMONIC HERE", "https://rinkeby.infura.io/6905tOWMuCMdmy4sRq5k")
        },
       host: "localhost", // Connect to geth on the specified
       network_id: 4,
